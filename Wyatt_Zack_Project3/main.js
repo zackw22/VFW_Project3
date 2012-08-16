@@ -139,7 +139,7 @@ window.addEventListener("DOMContentLoaded", function(){
                 deleteLink.href= "#";
             deleteLink.key= key;
             var deleteText= "Delete Task";
-            //deleteLink.addEventListener("click", deleteItem);
+            deleteLink.addEventListener("click", clearItem);
             deleteLink.innerHTML= deleteText;
             linksLi.appendChild(deleteLink);
         }
@@ -165,10 +165,21 @@ window.addEventListener("DOMContentLoaded", function(){
             
         }
         */
-     
+        function deleteItem(){
+            var ask= confirm("Are you sure you want to delete this task.");
+            if(ask){
+                localStorage.removeItem(his.key);
+                window.location.reload();
+                return false;
+            }else{
+                alert("Tasks has NOT been deleted.")
+            }
+        }
+        
+        
         function clearLocal(){
             if (localStorage.length === 0){
-            alert("There is no tasks to clear.");
+            alert("There are no tasks to clear.");
            }else{
             localStorage.clear();
             alert("All tasks have been cleared.");
@@ -180,19 +191,19 @@ window.addEventListener("DOMContentLoaded", function(){
         
         function validate(e){
             //Elements we want to check
-            var gettName= $("tname");
+            var getTname= $("tname");
             
             
         } 
         //Name field validation
-        if(gettName.value===""){
+        if(getTname.value===""){
             var tNameError= "Please enter a name"
-            gettName.style.border= "1 px solid red";
+            getTname.style.border= "1 px solid red";
             messageAry.push(tNameError);
         }
         
         //Error messages
-        if(messageAry.length>= 1){
+        if(messageAry.length >= 1){
            for (var i=0, j= messageAry.length; i<j; i++){
                 var txt= document.createElement("li");
                 txt.innerHTML= messageAry[i];
@@ -224,7 +235,7 @@ window.addEventListener("DOMContentLoaded", function(){
     var clearItem= $("clearItem");
         clearItem.addEventListener("click", clearItem);
     var save= $("submit");
-        save.addEventListener("click", validate);
+        save.addEventListener("click", storeData);
 
 
 });
