@@ -71,8 +71,16 @@ window.addEventListener("DOMContentLoaded", function(){
     }
     
     
-    function storeData(){
+    function storeData(key){
+        //If there is no key this means this is a brand new item and need a new key
+        if(!key){
+        
         var id           =Math.floor(Math.random()*1000001);
+        }else{
+            
+            
+            id= key;
+        }
         getSelectedRadio();
         var item         ={};
             item.task        =["Task:", $("taskSelect").value];
@@ -111,10 +119,52 @@ window.addEventListener("DOMContentLoaded", function(){
                         makeSubli.innerHTML=optSubText;
                         makeSubList.appendChild(linksLi);
                     }
-                   // makeItemLinks(): 
+                   makeItemLinks(localStorage.key(i), linksLi); 
             }
                 
         }
+        function makeItemLinks(key, linksLi){
+            var editLink= document.createElement("a");
+            editLink.href= "#";
+            editLink.key= key;
+            var editText= "Edit Task";
+            editLink.addEventListener("click", editItem);
+            editLink.innerHTML= editText;
+            linksLi.appendChild(editLink);
+            
+            var breakTag= document.createElement("br");
+            linksLi.appendChild(breakTag);
+            
+            var deleteLink= document.createElement("a");
+                deleteLink.href= "#";
+            deleteLink.key= key;
+            var deleteText= "Delete Task";
+            //deleteLink.addEventListener("click", deleteItem);
+            deleteLink.innerHTML= deleteText;
+            linksLi.appendChild(deleteLink);
+        }
+        
+        function editItem(){
+            var value= localStorage.getItem(this.key);
+            var item= JSON.parse(value);
+            
+            toggleControls("off");
+            
+            $("taskSelect").value= item.task[1];
+            $("tdate").value= item.tdate[1];
+            $("tname").value= item.tname[1];
+            $("tcomments").value= item.tcomments[1];
+            $("rating").value=  item.trating[1];
+           /* var radios= document.forms[0].ttopic;
+            for(var i=0; i<radios.length; i++){
+                if(radios[i].value=== 0){
+                
+
+            }
+            
+            
+        }
+        */
      
         function clearLocal(){
             if (localStorage.length === 0){
@@ -125,13 +175,45 @@ window.addEventListener("DOMContentLoaded", function(){
             window.location.reload();
             return false;
         }
+        
+    }
+        
+        function validate(e){
+            //Elements we want to check
+            var gettName= $("tname");
+            
+            
+        } 
+        //Name field validation
+        if(gettName.value===""){
+            var tNameError= "Please enter a name"
+            gettName.style.border= "1 px solid red";
+            messageAry.push(tNameError);
+        }
+        
+        //Error messages
+        if(messageAry.length>= 1){
+           for (var i=0, j= messageAry.length; i<j; i++){
+                var txt= document.createElement("li");
+                txt.innerHTML= messageAry[i];
+                errMsg.appendChild(txt);
+            }
+            e.preventDefault();
+            return false;
+        }else{
+            storeData(this.key);
+        }
+        
+    
+
     }
     
     //Variable
 
     var taskType = ["--Choose a task--","study","homework","test","clean","errand","walk the dog","project","other"],
         topicValue;
-        makeTask();
+        makeTask(),
+        errMsg= $("errors");
         
         
     
@@ -140,9 +222,9 @@ window.addEventListener("DOMContentLoaded", function(){
     var viewTask= $("viewTask");
         viewTask.addEventListener("click", getData);
     var clearItem= $("clearItem");
-        clearItem.addEventListener("click", clearLocal);
+        clearItem.addEventListener("click", clearItem);
     var save= $("submit");
-        save.addEventListener("click", storeData);
+        save.addEventListener("click", validate);
 
 
 });
