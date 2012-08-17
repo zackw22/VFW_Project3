@@ -74,16 +74,13 @@ window.addEventListener("DOMContentLoaded", function(){
     function storeData(key){
         //If there is no key this means this is a brand new item and need a new key
         if(!key){
-        
-        var id               =Math.floor(Math.random()*1000001);
+            var id               =Math.floor(Math.random()*1000001);
         }else{
-            
-            
             id= key;
         }
         getSelectedRadio();
         var item         ={};
-            item.task        =["Task:", $("taskSelect").value];
+            item.task        =["Task Type:", $("select").value];
             item.tdate       =["Date:", $("tdate").value];
             item.tname       =["Assign Task:", $("tname").value];
             item.tcomments   =["Comments:", $("tcomments").value];
@@ -125,7 +122,9 @@ window.addEventListener("DOMContentLoaded", function(){
             }
                 
         }
+        //Make Item links 
         function makeItemLinks(key, linksLi){
+            //add edit single item link
             var editLink= document.createElement("a");
             editLink.href= "#";
             editLink.key= key;
@@ -152,14 +151,16 @@ window.addEventListener("DOMContentLoaded", function(){
             
             toggleControls("off");
             
-            $("taskSelect").value= item.task[1];
+            //populate the form fields with current localStorage values.
+            
+            $("select").value= item.task[1];
             $("tdate").value= item.tdate[1];
             $("tname").value= item.tname[1];
             $("tcomments").value= item.tcomments[1];
             $("rating").value=  item.trating[1];
            /* var radios= document.forms[0].ttopic;
             for(var i=0; i<radios.length; i++){
-                if(radios[i].value=== 0){
+                if(radios[i].value=== ){
                 
 
             }
@@ -193,14 +194,19 @@ window.addEventListener("DOMContentLoaded", function(){
         
         function validate(e){
             //Elements we want to check
-            var gettname= $("tname");
+            var getTname= $("tname");
+            
+            //Reset error messages
+            errMsg.innerHTML = "";
+            getTname.style.border= "1 px solid black";
             
             
         } 
         //Name field validation
-        if(gettname.value===""){
-            var tNameError= "Please enter a name"
-            gettname.style.border= "1 px solid red";
+        var messageAry= [];
+        if(getTname.value=== ""){
+            var tNameError= "Please enter a name";
+            getTname.style.border= "1 px solid red";
             messageAry.push(tNameError);
         }
         
@@ -214,6 +220,8 @@ window.addEventListener("DOMContentLoaded", function(){
             e.preventDefault();
             return false;
         }else{
+            
+            
             storeData(this.key);
         }
         
