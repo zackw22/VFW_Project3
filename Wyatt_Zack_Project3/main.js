@@ -51,15 +51,15 @@ window.addEventListener("DOMContentLoaded", function(){
         switch(n){
                 case "on":
                     $("taskForm").style.display= "none";
-                    $("clearItem").style.display="inline";
-                    $("viewTask").style.display= "none";
-                    $("submit").style.display= "inline";
+                    $("clear").style.display="inline";
+                    $("view").style.display= "none";
+                    $("addNew").style.display= "inline";
                     break;
                 case "off":
                     $("taskForm").style.display= "block";
-                    $("clearItem").style.display="inline";
-                    $("viewTask").style.display= "inline";
-                    $("submit").style.display= "none";
+                    $("clear").style.display="inline";
+                    $("view").style.display= "inline";
+                    $("addNew").style.display= "none";
                     $("items").style.display= "none";
                     
                     break;
@@ -75,7 +75,7 @@ window.addEventListener("DOMContentLoaded", function(){
         //If there is no key this means this is a brand new item and need a new key
         if(!key){
         
-        var id           =Math.floor(Math.random()*1000001);
+        var id               =Math.floor(Math.random()*1000001);
         }else{
             
             
@@ -97,25 +97,27 @@ window.addEventListener("DOMContentLoaded", function(){
     }
 
         function getData(){
+            toggleControls("on");
                 var makeDiv= document.createElement("div");
                 makeDiv.setAttribute("id","items");
                 var makeList= document.createElement("ul");
                 makeDiv.appendChild(makeList);
                 document.body.appendChild(makeDiv);
-                $("items").style.display= "display";
+                $("items").style.display= "block";
                 for(var i=0, j=localStorage.length; i<j; i++){
                     var makeLi= document.createElement("li");
                     var linksLi= document.createElement("li");
                     makeList.appendChild(makeLi);
                     var key= localStorage.key(i);
                     var value= localStorage.getItem(key);
+                    //Convert the string from local storage value back to an object
                     var obj= JSON.parse(value);
                     var makeSubList= document.createElement("ul");
                     makeLi.appendChild(makeSubList);
                     for(var n in obj){
                         var makeSubli= document.createElement("li");
                         makeSubList.appendChild(makeSubli);
-                        var optSubText= obj[n][0]+" "+obj[n][1];
+                        var optSubText= obj[n][0]+ " " +obj[n][1];
                         makeSubli.innerHTML=optSubText;
                         makeSubList.appendChild(linksLi);
                     }
@@ -168,11 +170,11 @@ window.addEventListener("DOMContentLoaded", function(){
         function deleteItem(){
             var ask= confirm("Are you sure you want to delete this task.");
             if(ask){
-                localStorage.removeItem(his.key);
+                localStorage.removeItem(this.key);
                 window.location.reload();
                 return false;
             }else{
-                alert("Tasks has NOT been deleted.")
+                alert("Task has NOT been deleted.")
             }
         }
         
@@ -191,14 +193,14 @@ window.addEventListener("DOMContentLoaded", function(){
         
         function validate(e){
             //Elements we want to check
-            var getTname= $("tname");
+            var gettname= $("tname");
             
             
         } 
         //Name field validation
-        if(getTname.value===""){
+        if(gettname.value===""){
             var tNameError= "Please enter a name"
-            getTname.style.border= "1 px solid red";
+            gettname.style.border= "1 px solid red";
             messageAry.push(tNameError);
         }
         
@@ -230,9 +232,9 @@ window.addEventListener("DOMContentLoaded", function(){
     
     //Link and Submit Click Events
 
-    var viewTask= $("viewTask");
+    var viewTask= $("view");
         viewTask.addEventListener("click", getData);
-    var clearItem= $("clearItem");
+    var clearItem= $("clear");
         clearItem.addEventListener("click", clearItem);
     var save= $("submit");
         save.addEventListener("click", storeData);
