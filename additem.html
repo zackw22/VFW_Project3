@@ -20,12 +20,13 @@
             <h1><a href="index.html">Get Fit</a></h1>
         </header>
         <nav>
-            <a href= "additem.html" id= "addNew" style= "display:none">Add A Workout</a>
-            <a href="#" id= "clear">Clear Workout</a></br>
-            <a href="#" id= "view">View Workouts</a>
+            <a href= "additem.html" id= "addNew" style= "display:none">Add</a>
+            <a href="#" id= "clear">Clear</a></br>
+            <a href="#" id= "view">View Progress</a>
         </nav>
         <form action="#" method="post" id="workForm">
-            <fieldset><legend>Add A Workout</legend>
+            <fieldset><legend>Add a Workout</legend>
+                <ul id= "errors"></ul>
                 <ul id= "questions">
                     <li><label for="date">Date: </label> <input type="date" id="date" placeholder="day/month/year" /></li>
                     <li><label for="name">Name:</label> <input type="text" id="name" /></li>
@@ -39,7 +40,6 @@
             </fieldset>
                        
             <fieldset>
-                        <ul id= "errors"></ul>
                         <ul id= "questions"></ul>
                         <li id="select"><label for="workout">Type of Workout:</br></label></li>                     
                       <li><label for="reps">Reps:<br></label>1. Bulk<input type="range" min="1" max="15" name="reps" type="reps" id="reps" />15. Tone</li>
